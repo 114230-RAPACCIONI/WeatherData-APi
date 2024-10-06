@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  clients:
+    container_name: weather_db
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: java_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      service-net-app:
+
+
+  practica-parcial-one-final-2024:
+
+    container_name: api_weather
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+    ports:
+      - "8080:8080"
+    networks:
+      service-net-app:
+    restart: on-failure
+volumes:
+  mysql_data:
+
+
+networks:
+  service-net-app:
